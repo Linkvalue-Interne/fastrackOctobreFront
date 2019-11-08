@@ -5,7 +5,9 @@ font-size: 1.7em;
 padding: 1rem;
 `;
 
-export const P = styled.p`font-size: 1.2em`;
+export const P = styled.p`
+font-size: 1.2em;
+`;
 
 export const SpanBold = styled.span`
 font-weight: bold;
