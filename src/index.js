@@ -1,23 +1,18 @@
-// == Import : npm
 import React from 'react';
 import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-// == Import : local
-import App from 'src/components/App';
 import store from 'src/store';
 import Form from 'src/components/Form';
 
-// == Render
 const rootComponent = (
   <Provider store={store}>
     <Router>
-      <Form />
     </Router>
   </Provider>
 
 );
 
-// Le rendu de React => DOM
 render(rootComponent, document.getElementById('root'));
