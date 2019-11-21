@@ -5,32 +5,7 @@ import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 
 import EditButton from '../commons/fixedButton';
-import Form from '../Form';
-
-const FormContainer = styled.div`
-width: 30%;
-top: 0;
-height: 150vh;
-left: 100%;
-position: fixed;
-z-index: 10;
-background-color: #28ABE2;
-transition: left 1s;
-display: flex;
-justify-content: flex-start;
-align-items: center;
-flex-direction: column;
-padding: 2rem 0.2rem;
-
-${(props) => props.animate && `
-left: 70%;
-`}
-
-${(props) => !props.animate && `
-left: 100%;
-`}
-
-`;
+import FormContainer from '../commons/formContainer';
 
 const AddButton = styled(EditButton)`
 transition: left 1s;
@@ -65,27 +40,20 @@ const FixedButton = () => {
 
   return (
     <>
-      <FormContainer animate={animate}>
+      <FormContainer animate={animate} />
+      <Link to="">
         {show
           ? (
-            <Link to="">
-              <AddButton onClick={handleClick} animate={animate}>
-                <FontAwesomeIcon icon={faPlus} style={{ color: '#DFE4EA' }} size="1x" />
-              </AddButton>
-              <Form />
-            </Link>
+            <AddButton onClick={handleClick} animate={animate}>
+              <FontAwesomeIcon icon={faPlus} style={{ color: '#28ABE2' }} size="1x" />
+            </AddButton>
           )
           : (
-            <>
-              <Link to="">
-                <AddButton onClick={handleClose} animate={animate}>
-                  <FontAwesomeIcon icon={faMinus} style={{ color: '#DFE4EA' }} size="1x" />
-                </AddButton>
-              </Link>
-              <Form />
-            </>
+            <AddButton onClick={handleClose} animate={animate}>
+              <FontAwesomeIcon icon={faMinus} style={{ color: '#DFE4EA' }} size="1x" />
+            </AddButton>
           )}
-      </FormContainer>
+      </Link>
     </>
   );
 };
