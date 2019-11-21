@@ -13,7 +13,7 @@ const CustomH3 = styled(H3)`
 
 const LogoContainer = styled.div`
   display: flex;
-  padding: 1.5rem 1rem;;
+  padding: 1.5rem 3rem;;
   width: 100%;
   justify-content: center;
   align-items: center;
@@ -31,20 +31,11 @@ const Up = styled.div`
   text-transform: uppercase;
 `;
 
-const Container2 = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
 const Card = ({ partner }) => (
   <Delayed wait={partner.wait}>
     <PictureBox image={partner.image} />
-    <Container2>
-      <CustomH3>{partner.firstname} <SpanBold>{partner.lastname}</SpanBold></CustomH3>
-      <P>{partner.jobs}</P>
-    </Container2>
+    <CustomH3>{partner.firstname} <SpanBold>{partner.lastname}</SpanBold></CustomH3>
+    <P>{partner.jobs}</P>
     <LogoContainer>
       <Logo>
         <Img src={partner.firstTechno} alt="" />

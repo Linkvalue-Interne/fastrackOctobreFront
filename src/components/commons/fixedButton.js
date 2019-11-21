@@ -12,7 +12,6 @@ const EditButton = styled.div({
   height: '40px',
   borderTopLeftRadius: '40px',
   borderBottomLeftRadius: '40px',
-  zIndex: '10',
 });
 
 export default EditButton;
