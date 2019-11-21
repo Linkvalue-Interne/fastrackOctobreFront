@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router';
 import styled from '@emotion/styled';
 
@@ -59,10 +58,7 @@ const PartnerDetails = () => {
   const { partnerId } = useParams();
 
   useEffect(() => {
-    axios.get(`https://fasttrack-octobre-back.herokuapp.com/api/partner/${partnerId}`)
-      .then((res) => {
-        setPartner(res.data);
-      });
+    setPartner(getPartner);
   }, []);
 
   // Varibales :
@@ -87,6 +83,7 @@ const PartnerDetails = () => {
         && (
           <>
             <Nav />
+
             <TextHeader title={`${partner.firstName || 'toto'} ${partner.lastName}`} />
             <FixedButton />
             <Container>
@@ -142,6 +139,7 @@ const PartnerDetails = () => {
                 {console.log(partner)}
               </Card>
             </Container>
+
           </>
         )}
     </>
