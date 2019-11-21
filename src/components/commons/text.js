@@ -22,10 +22,3 @@ export const SpanBold = styled.span`
 font-weight: bold;
 text-transform: uppercase;
 `;
-
-export const WhiteP = styled.p`
-  color: #fff;
-  font-weight: 300;
-  font-size: 1rem;
-  margin-left: 0.5rem;
-`;

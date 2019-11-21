@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,7 @@ background-color: #28ABE2;
 
 ${(props) => !props.animate && `
 left: calc(100% - 40px);
-background-color: #28ABE2;
+background-color: #DFE4EA;
 `}
 
 `;
@@ -58,4 +58,5 @@ const FixedButton = () => {
   );
 };
 
+// == Export
 export default FixedButton;
