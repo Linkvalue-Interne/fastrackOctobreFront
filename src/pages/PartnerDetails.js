@@ -83,7 +83,6 @@ const PartnerDetails = () => {
         && (
           <>
             <Nav />
-
             <TextHeader title={`${partner.firstName || 'toto'} ${partner.lastName}`} />
             <FixedButton />
             <Container>
@@ -135,8 +134,6 @@ const PartnerDetails = () => {
 
                   <P margin=".8rem 0 .8rem .3rem" display="block"> Liste des technologies acquises </P>
                 </BoxSkills>
-
-                {console.log(partner)}
               </Card>
             </Container>
 
