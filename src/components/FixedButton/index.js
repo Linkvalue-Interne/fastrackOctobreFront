@@ -5,26 +5,7 @@ import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import styled from '@emotion/styled';
 
 import EditButton from '../commons/fixedButton';
-
-const FormContainer = styled.div`
-width: 30%;
-top: 0;
-height: 100vh;
-left: 100%;
-position: fixed;
-z-index: 10;
-background-color: #28ABE2;
-transition: left 1s;
-
-${(props) => props.animate && `
-left: 70%;
-`}
-
-${(props) => !props.animate && `
-left: 100%;
-`}
-
-`;
+import FormContainer from '../commons/formContainer';
 
 const AddButton = styled(EditButton)`
 transition: left 1s;
@@ -60,21 +41,19 @@ const FixedButton = () => {
   return (
     <>
       <FormContainer animate={animate} />
-      {show
-        ? (
-          <Link to="">
+      <Link to="">
+        {show
+          ? (
             <AddButton onClick={handleClick} animate={animate}>
               <FontAwesomeIcon icon={faPlus} style={{ color: '#28ABE2' }} size="1x" />
             </AddButton>
-          </Link>
-        )
-        : (
-          <Link to="">
+          )
+          : (
             <AddButton onClick={handleClose} animate={animate}>
               <FontAwesomeIcon icon={faMinus} style={{ color: '#DFE4EA' }} size="1x" />
             </AddButton>
-          </Link>
-        )}
+          )}
+      </Link>
     </>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router';
 import { getPartner } from '../services/client';
 
@@ -13,10 +12,7 @@ const PartnerDetails = () => {
   const { partnerId } = useParams();
 
   useEffect(() => {
-    axios.get(`https://fasttrack-octobre-back.herokuapp.com/api/partner/${partnerId}`)
-      .then((res) => {
-        setPartner(res.data);
-      });
+    setPartner(getPartner);
   }, []);
 
   return (
@@ -26,7 +22,7 @@ const PartnerDetails = () => {
           <>
             <Nav />
             <FixedButton />
-            <TextHeader title={`${partner.firstName || 'toto'} ${partner.lastName}`} />
+            <TextHeader title={`${partner.firstName} ${partner.lastName}`} />
           </>
         )}
     </>
