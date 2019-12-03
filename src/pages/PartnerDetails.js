@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMobileAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import ConvertToTime from '../helpers/ConvertToTime';
+import ConvertToTime from '../Helper/ConvertToTime';
 import { categoriesDatas, logoTec, nameTec } from './ProvisionalData';
 import ChronoLine from '../components/commons/chronoLine';
 import RangeCursor from '../components/commons/RangeCursor';
