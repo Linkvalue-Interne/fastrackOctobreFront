@@ -17,4 +17,4 @@ export const partnerReciever = async (partnerId) => axios.get(`https://fasttrack
   .then((res) => ({
     data: res.data,
     convertedTime: ConvertToTime(res.data.experience),
-  }));
+  })).catch((err) => console.log(err));
