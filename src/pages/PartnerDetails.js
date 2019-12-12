@@ -14,8 +14,6 @@ import Picture from '../components/commons/picture';
 import CardPartner from '../components/commons/cardPartner';
 import ContainerCommon from '../components/commons/container';
 import { H3, P } from '../components/commons/text';
-import OnFlyForm from '../components/OnFlyForm/OnFlyForm';
-import NoEditingForm from '../components/OnFlyForm/NoEditingForm';
 import Loading from '../components/Loading';
 import Img from '../components/commons/logoTechno';
 import {
@@ -84,9 +82,7 @@ const PartnerDetails = () => {
       .then((response) => {
         dispatch(getPartnerDetails(response.data));
         setTime(response.convertedTime);
-        console.log("apres setTime genre pouet")
       });
-    console.log("juste avant converSkill")
     await convertSkills().then((data) => dispatch(initSkills(data)));
   }, []);
 
@@ -136,8 +132,6 @@ const PartnerDetails = () => {
                     <H3 fontSize="2rem">Objectifs</H3>
                   </HorizontalFlex>
                   <ChronoLine />
-                  {editMode === false && <NoEditingForm />}
-                  {editMode === true && <OnFlyForm />}
                 </BoxGoals>
 
                 <BoxSkills>
