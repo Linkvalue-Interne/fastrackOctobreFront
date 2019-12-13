@@ -12,4 +12,6 @@ Skills.propTypes = {
 };
 
 
+console.log('pouet00');
+
 export default Skills;
