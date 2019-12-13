@@ -11,6 +11,7 @@ Skills.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
+console.log('toto2');
 
 console.log('pouet00');
 
