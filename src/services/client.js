@@ -20,7 +20,7 @@ export const partnerReciever = async (partnerId) => axios.get(`https://fasttrack
   }));
 
 export const partnerList = async () => axios.get('https://fasttrack-octobre-back.herokuapp.com/api/partner')
-  .then((res) => ({ data: res.data }));
+  .then((res) => res.data);
 
 export const filtredPartnerList = async (filter) => axios.get(`https://fasttrack-octobre-back.herokuapp.com/api/partner/${filter}`)
   .then((res) => ({ data: res.data }));
@@ -31,4 +31,4 @@ export const skillsSender = (partner) => {
     url: `https://fasttrack-octobre-back.herokuapp.com/api/partner/${partner.id}`,
     data: partner,
   });
-  }
+};
