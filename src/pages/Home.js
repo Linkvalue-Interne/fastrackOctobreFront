@@ -7,13 +7,15 @@ import { faSortAlphaDownAlt, faSortAlphaDown } from '@fortawesome/free-solid-svg
 import Nav from '../components/Nav';
 import TextHeader from '../components/TextHeader';
 import FixedButton from '../components/FixedButton';
-import { partnerList, filtredPartnerList } from '../services/client';
+import { partnerList, filtredPartnerList, skillsReciever } from '../services/client';
 import SearchBar from '../components/commons/searchBar';
 import Card from '../components/Card';
 import Container from '../components/commons/container';
 import FiltredButton from '../components/commons/filterButton';
 import keyGenerator from '../Helper/KeyGenerator';
-import { addList } from '../store/actions';
+import { addList, getSkills } from '../store/actions';
+
+import getFavSkills from '../Helper/Skills/getFavSkills';
 
 const Link2 = styled(Link)`
   display: flex;
@@ -27,6 +29,7 @@ const Link2 = styled(Link)`
 const Home = () => {
   const [asc, setAsc] = useState(false);
   const [desc, setDesc] = useState(false);
+  const [test, setTest] = useState();
   const dispatch = useDispatch();
   const list = useSelector(({ partnerReducer }) => partnerReducer.list);
 
@@ -39,6 +42,7 @@ const Home = () => {
     setAsc(asc);
     setDesc(!desc);
   };
+
 
   const getList = () => {
     if (asc === true && desc === false) {
@@ -56,6 +60,10 @@ const Home = () => {
     getList();
   }, [asc, desc]);
 
+  useEffect(() => {
+    skillsReciever().then((res) => getFavSkills(res, list));
+  }, [list]);
+
   return (
     <>
       <Nav />
@@ -66,27 +74,27 @@ const Home = () => {
       <SearchBar top="2rem" left="81%" />
       <Container>
         {list
-        && list.map((partner, index) => (
-          <Link2 key={keyGenerator(partner.id)} to={`/${partner.id}`}>
-            <Card
-              key={keyGenerator(partner.lastName)}
-              partner={{
-                id: partner.id,
-                wait: (index * 250),
-                firstname: partner.firstName,
-                lastname: partner.lastName,
-                image: partner.avatar,
-                jobs: partner.job,
-                firstTechnoName: 'Docker',
-                secondTechnoName: 'Jenkins',
-                thirdTechnoName: 'CircleCI',
-                firstTechno: './styles/img/docker.png',
-                secondTechno: './styles/img/jenkins.png',
-                thirdTechno: './styles/img/circleci.png',
-              }}
-            />
-          </Link2>
-        ))}
+          && list.map((partner, index) => (
+            <Link2 key={keyGenerator(partner.id)} to={`/${partner.id}`}>
+              <Card
+                key={keyGenerator(partner.lastName)}
+                partner={{
+                  id: partner.id,
+                  wait: (index * 250),
+                  firstname: partner.firstName,
+                  lastname: partner.lastName,
+                  image: partner.avatar,
+                  jobs: partner.job,
+                  firstTechnoName: 'Docker',
+                  secondTechnoName: 'Jenkins',
+                  thirdTechnoName: 'CircleCI',
+                  firstTechno: './styles/img/docker.png',
+                  secondTechno: './styles/img/jenkins.png',
+                  thirdTechno: './styles/img/circleci.png',
+                }}
+              />
+            </Link2>
+          ))}
       </Container>
     </>
   );

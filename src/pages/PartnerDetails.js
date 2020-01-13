@@ -24,7 +24,7 @@ import BoxGoals from '../components/commons/boxGoals';
 import BoxSkills from '../components/commons/boxSkills';
 
 import convertSkills from '../Helper/Skills';
-import { initSkills, getPartnerDetails, setTechno } from '../store/actions';
+import { initSkills, getPartnerDetails, setTechno, getSkills } from '../store/actions';
 import SubContainer from '../components/SubContainer';
 import keyGenerator from '../Helper/KeyGenerator';
 import { partnerReciever, skillsSender } from '../services/client';

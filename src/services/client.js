@@ -12,7 +12,6 @@ export const dataSender = async (formData) => {
 
 export const skillsReciever = async () => axios.get('https://fasttrack-octobre-back.herokuapp.com/api/skill').then((res) => res.data);
 
-
 export const partnerReciever = async (partnerId) => axios.get(`https://fasttrack-octobre-back.herokuapp.com/api/partner/${partnerId}`)
   .then((res) => ({
     data: res.data,
