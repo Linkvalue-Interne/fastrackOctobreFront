@@ -28,8 +28,8 @@ const Subtitle = styled.h3`
 
 const TextHeader = (props) => (
   <Header>
-    <Title>{props.title}</Title>
-    <Subtitle>{props.subtitle}</Subtitle>
+    <Title contentEditable="true">{props.title}</Title>
+    <Subtitle contentEditable="true">{props.subtitle}</Subtitle>
   </Header>
 );
 

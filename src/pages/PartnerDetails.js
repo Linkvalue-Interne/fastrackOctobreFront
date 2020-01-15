@@ -4,7 +4,7 @@ import { useParams } from 'react-router';
 import styled from '@emotion/styled';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMobileAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faMobileAlt, faEnvelope, faUpload } from '@fortawesome/free-solid-svg-icons';
 import Loading from '../components/Loading';
 import ChronoLine from '../components/commons/chronoLine';
 import RangeCursor from '../components/commons/RangeCursor';
@@ -76,13 +76,14 @@ const Icon = styled(FontAwesomeIcon)`
 const PartnerDetails = () => {
   const [time, setTime] = useState(0);
   const [skillEdit, setSkillsEdit] = useState(false);
+  const [hover, setHover] = useState(false);
   const { partnerId } = useParams();
   const dispatch = useDispatch();
   const skills = useSelector(({ skillsReducer }) => skillsReducer.skillsList);
   const partner = useSelector(({ partnerReducer }) => partnerReducer.partnerDetails);
   const categorys = useSelector(({ skillsReducer }) => skillsReducer.categoriesList);
   const techno = useSelector(({ skillsReducer }) => skillsReducer.currentTechno);
-
+  const [imageURL, setImageURL] = useState();
 
   useEffect(() => {
     partnerReciever(partnerId)
@@ -101,9 +102,63 @@ const PartnerDetails = () => {
     setSkillsEdit(!skillEdit);
   };
 
+  const handleImageChange = (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    const image = e.target.files[0];
+
+    reader.onloadend = () => {
+      setImageURL(reader.result);
+    };
+
+    reader.readAsDataURL(image);
+  };
+
   const handleSet = (text) => {
     dispatch(setTechno(text));
   };
+
+  const InputFile = styled.input`
+  display: none;
+  `;
+
+  const Label = styled.label`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -100px;
+  left: calc(50% - 85px);
+  width: 160px;
+  height: 160px;
+  border-radius: 90px;
+  margin: 1rem 0;
+  border: 4px solid #DEE3EA;
+  opacity: 1;
+  background-color: #DFE4EA;
+  background-image: url("${(props) => props.url}");
+  background-size: cover;
+  background-position: center;
+  transition: 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition-property: transform, background-color;
+  &:hover{
+    transform: scale(1.07);
+    background-color: #fff;
+  }
+  `;
+
+  const Select = styled.select`
+    font-weight: 300;
+    color: #757575;
+    line-height: 1;
+    border: none;
+    padding: 0px .2rem;
+    width: 137px;
+    margin: 5px;
+    background-color: #fff;
+    font-size: 0.6rem;
+    border: 2px solid #2F3640;
+`;
 
   return (
     <>
@@ -114,29 +169,49 @@ const PartnerDetails = () => {
             {partner && (
               <>
                 <Nav />
-                <TextHeader title={`${partner.firstName} ${partner.lastName}`} />
-                <FixedButton />
+                <TextHeader contentEditable="true" title={`${partner.firstName} ${partner.lastName}`} />
                 <Container>
                   <Card>
-                    <Pphone>
+                    <Pphone contentEditable="true">
                       {`${partner.phoneNumber}`}
                       <Icon icon={faMobileAlt} size="1x" />
                     </Pphone>
-                    <Pmail>
+                    <Pmail contentEditable="true">
                       <Icon icon={faEnvelope} size="1x" />
                       {`${partner.email}`}
                     </Pmail>
-                    <Picture image={partner.avatar} />
+                    <Label htmlFor="image" url={imageURL || partner.avatar}>
+                      {!partner.avatar && (
+                        <FontAwesomeIcon icon={faUpload} style={{ color: '#282828' }} size="1x" />
+                      )}
+                    </Label>
+                    <InputFile name="avatar" type="file" accept="image/png, image/jpeg, image/jpg, image.svg" id="image" onChange={handleImageChange} required />
                     <BoxHead>
-                      <H3 fontSize="2rem">{`${partner.job}`}</H3>
-                      <P> {`Depuis ${time.years} ans et ${time.months} mois.`} </P>
+                      <H3 contentEditable="true" fontSize="2rem">{`${partner.job}`}</H3>
+                      <P contentEditable="true">{`Depuis ${time.years} ans et ${time.months} mois.`}</P>
                       <HorizontalFlex>
                         <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Société actuelle : </P>
-                        <P margin=".8rem 0 .8rem .3rem">{`${partner.customer}`}</P>
+                        {hover ? (
+                          <Select name="customer" id="select">
+                            {/* J'attends d'avoir les clients en bdd pour map */}
+                            <option>Sélectionnez un client</option>
+                            <option>FTV</option>
+                            <option>M6</option>
+                            <option>Sodexo</option>
+                            <option>Keplr</option>
+                            <option>Booster</option>
+                          </Select>
+                        )
+                          : <P onMouseEnter={() => setHover(true)} contentEditable="true" margin=".8rem 0 .8rem .3rem">{`${partner.customer}`}</P>}
                       </HorizontalFlex>
                       <HorizontalFlex>
-                        <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Projet : </P>
-                        <P margin=".8rem 0 .8rem .3rem">{`${partner.project}`}</P>
+                        {partner.project === 'Booster' &&
+                          (
+                            <>
+                              <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Projet : </P>
+                              <P margin=".8rem 0 .8rem .3rem">{`${partner.project}`}</P>
+                            </>
+                          )}
                       </HorizontalFlex>
                     </BoxHead>
 

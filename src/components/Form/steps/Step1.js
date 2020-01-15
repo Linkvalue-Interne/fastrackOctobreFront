@@ -137,7 +137,7 @@ const Form = (props) => (
     <FlexColumn>
       <FlexSpaceBetween>
         <WhiteP>Prénom</WhiteP>
-        <Input name="firstName" placeholder="Jean" onChange={props.change} required />
+        <Input name="firstName" placeholder="Jean" value="test" onChange={props.change} required />
       </FlexSpaceBetween>
       <FlexSpaceBetween>
         <WhiteP>Nom</WhiteP>

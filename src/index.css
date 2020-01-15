@@ -1,5 +1,10 @@
 @import './_reset.css';
 
+[contenteditable]:focus {
+  outline: 1px solid #39AAE2;
+  padding: 4px 10px;
+}
+
 * {
   box-sizing: border-box;
   font-size: 16px;
