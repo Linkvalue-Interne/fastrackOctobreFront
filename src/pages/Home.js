@@ -13,9 +13,10 @@ import Card from '../components/Card';
 import Container from '../components/commons/container';
 import FiltredButton from '../components/commons/filterButton';
 import keyGenerator from '../Helper/KeyGenerator';
-import { addList, getSkills } from '../store/actions';
+import { addList, initSkills } from '../store/actions';
 
-import getFavSkills from '../Helper/Skills/getFavSkills';
+import { filterFavPartner } from '../Helper/Partner/filterSkillsPartner';
+import convertSkills from '../Helper/Skills';
 
 const Link2 = styled(Link)`
   display: flex;
@@ -32,7 +33,7 @@ const Home = () => {
   const [test, setTest] = useState();
   const dispatch = useDispatch();
   const list = useSelector(({ partnerReducer }) => partnerReducer.list);
-
+  const skills = useSelector(({ skillsReducer }) => skillsReducer.skillsList);
   const ascFilter = () => {
     setAsc(!asc);
     setDesc(desc);
@@ -61,7 +62,7 @@ const Home = () => {
   }, [asc, desc]);
 
   useEffect(() => {
-    skillsReciever().then((res) => getFavSkills(res, list));
+    convertSkills().then((data) => dispatch(initSkills(data)));
   }, [list]);
 
   return (
@@ -73,9 +74,11 @@ const Home = () => {
       <FixedButton />
       <SearchBar top="2rem" left="81%" />
       <Container>
+        {console.log('Parner', list)}
         {list
           && list.map((partner, index) => (
             <Link2 key={keyGenerator(partner.id)} to={`/${partner.id}`}>
+
               <Card
                 key={keyGenerator(partner.lastName)}
                 partner={{
