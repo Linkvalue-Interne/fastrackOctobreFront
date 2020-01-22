@@ -13,10 +13,9 @@ import Card from '../components/Card';
 import Container from '../components/commons/container';
 import FiltredButton from '../components/commons/filterButton';
 import keyGenerator from '../Helper/KeyGenerator';
-import { addList, initSkills } from '../store/actions';
+import { addList } from '../store/actions';
+import { setToken } from '../Helper/Partner/localStorage';
 
-import { filterFavPartner } from '../Helper/Partner/filterSkillsPartner';
-import convertSkills from '../Helper/Skills';
 
 const Link2 = styled(Link)`
   display: flex;
