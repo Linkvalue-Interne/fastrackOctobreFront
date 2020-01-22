@@ -1,4 +1,6 @@
-import { CHANGE_VALUE, GET_PARTNER_DETAILS, SET_SKILL_VALUE, ADD_VALUE } from '../actions';
+import {
+  CHANGE_VALUE, GET_PARTNER_DETAILS, SET_SKILL_VALUE, ADD_VALUE, ADD_LIST, ADD_NEW_PARTNER,
+} from '../actions';
 
 const initialState = {
   list: [],
@@ -8,8 +10,10 @@ const initialState = {
 
 const partnerReducer = (state = initialState, action = {}) => {
   switch (action.type) {
+    case ADD_LIST:
+      return {...state, list: action.payload };
     case CHANGE_VALUE:
-      return { currentPartner: action.payload };
+      return { ...state, currentPartner: action.payload };
     case GET_PARTNER_DETAILS:
       return { ...state, partnerDetails: action.payload };
     case SET_SKILL_VALUE:
@@ -27,6 +31,11 @@ const partnerReducer = (state = initialState, action = {}) => {
           ...state.partnerDetails,
           skills: [...state.partnerDetails.skills, action.payload],
         },
+      };
+    case ADD_NEW_PARTNER:
+      return {
+        ...state,
+        list: [action.payload, ...state.list],
       };
     default:
       return state;

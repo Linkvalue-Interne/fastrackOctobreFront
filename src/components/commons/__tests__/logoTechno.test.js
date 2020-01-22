@@ -7,8 +7,15 @@ import Img from '../logoTechno';
 expect.addSnapshotSerializer(serializer);
 
 describe('Logo', () => {
-  it('renders with correct styles', () => {
-    const tree = renderer.create(<Img />).toJSON();
+  it('should renders with correct styles', () => {
+    const props = {
+      height: '10px',
+      width: '10px',
+      marginBottom: '3px',
+      margin: '#fff',
+    };
+
+    const tree = renderer.create(<Img {...props} />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });

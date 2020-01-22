@@ -16,14 +16,18 @@ import Picture from '../components/commons/picture';
 import CardPartner from '../components/commons/cardPartner';
 import ContainerCommon from '../components/commons/container';
 import { H3, P } from '../components/commons/text';
-import {
-  SkillsSlideContainer, HorizontalFlex, BoxHead, BoxGoals, BoxSkills,
-} from '../components/commons/otherStyles';
+
+import SkillsSlideContainer from '../components/commons/skillsSlideContainer';
+import HorizontalFlex from '../components/commons/horizontalFlex';
+import BoxHead from '../components/commons/boxHead';
+import BoxGoals from '../components/commons/boxGoals';
+import BoxSkills from '../components/commons/boxSkills';
+
 import convertSkills from '../Helper/Skills';
 import { initSkills, getPartnerDetails, setTechno } from '../store/actions';
 import SubContainer from '../components/SubContainer';
 import keyGenerator from '../Helper/KeyGenerator';
-import { partnerReciever } from '../services/client';
+import { partnerReciever, skillsSender } from '../services/client';
 import { filterSkillsPartnerActive, filterSkillsPartnerUnactive } from '../Helper/Partner/filterSkillsPartner';
 import Button from '../components/commons/button';
 import OnFlyForm from '../components/OnFlyForm/OnFlyForm';
@@ -89,7 +93,9 @@ const PartnerDetails = () => {
     convertSkills().then((data) => dispatch(initSkills(data)));
   }, []);
 
-  const baseUrl = '../styles/';
+  useEffect(() => {
+    skillsSender(partner);
+  }, [partner]);
 
   const switchEdit = () => {
     setSkillsEdit(!skillEdit);
@@ -101,96 +107,99 @@ const PartnerDetails = () => {
 
   return (
     <>
-      {Object.getOwnPropertyNames(partner).length < 1
+      {partner && Object.getOwnPropertyNames(partner).length < 1
         ? <Loading />
         : (
           <>
-            <Nav />
-            <TextHeader title={`${partner.firstName} ${partner.lastName}`} />
-            <FixedButton />
-            <Container>
-              <Card>
-                <Pphone>
-                  {`${partner.phoneNumber}`}
-                  <Icon icon={faMobileAlt} size="1x" />
-                </Pphone>
-                <Pmail>
-                  <Icon icon={faEnvelope} size="1x" />
-                  {`${partner.email}`}
-                </Pmail>
-                <Picture image={`${baseUrl}${partner.avatar}`} />
-                <BoxHead>
-                  <H3 fontSize="2rem">{`${partner.job}`}</H3>
-                  <P> {`Depuis ${time.years} ans et ${time.months} mois.`} </P>
-                  <HorizontalFlex>
-                    <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Société actuelle : </P>
-                    <P margin=".8rem 0 .8rem .3rem">{`${partner.customer}`}</P>
-                  </HorizontalFlex>
-                  <HorizontalFlex>
-                    <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Projet : </P>
-                    <P margin=".8rem 0 .8rem .3rem">{`${partner.project}`}</P>
-                  </HorizontalFlex>
-                </BoxHead>
+            {partner && (
+              <>
+                <Nav />
+                <TextHeader title={`${partner.firstName} ${partner.lastName}`} />
+                <FixedButton />
+                <Container>
+                  <Card>
+                    <Pphone>
+                      {`${partner.phoneNumber}`}
+                      <Icon icon={faMobileAlt} size="1x" />
+                    </Pphone>
+                    <Pmail>
+                      <Icon icon={faEnvelope} size="1x" />
+                      {`${partner.email}`}
+                    </Pmail>
+                    <Picture image={partner.avatar} />
+                    <BoxHead>
+                      <H3 fontSize="2rem">{`${partner.job}`}</H3>
+                      <P> {`Depuis ${time.years} ans et ${time.months} mois.`} </P>
+                      <HorizontalFlex>
+                        <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Société actuelle : </P>
+                        <P margin=".8rem 0 .8rem .3rem">{`${partner.customer}`}</P>
+                      </HorizontalFlex>
+                      <HorizontalFlex>
+                        <P fontWeight="bold" margin=".8rem 0 .8rem .3rem">Projet : </P>
+                        <P margin=".8rem 0 .8rem .3rem">{`${partner.project}`}</P>
+                      </HorizontalFlex>
+                    </BoxHead>
 
-                <BoxGoals>
-                  <HorizontalFlex>
-                    <H3 fontSize="2rem">Objectifs</H3>
-                  </HorizontalFlex>
-                  <ChronoLine />
-                  <HorizontalFlex justifyContent="space-between" alignItems="baseline" width="100%">
-                    <OnFlyForm title="Court terme" />
-                    <OnFlyForm title="Moyen terme" />
-                    <OnFlyForm title="Long terme" />
-                  </HorizontalFlex>
-                </BoxGoals>
+                    <BoxGoals>
+                      <HorizontalFlex>
+                        <H3 fontSize="2rem">Objectifs</H3>
+                      </HorizontalFlex>
+                      <ChronoLine />
+                      <HorizontalFlex justifyContent="space-between" alignItems="baseline" width="100%">
+                        <OnFlyForm title="Court terme" />
+                        <OnFlyForm title="Moyen terme" />
+                        <OnFlyForm title="Long terme" />
+                      </HorizontalFlex>
+                    </BoxGoals>
 
-                <BoxSkills>
-                  <H3 fontSize="2rem">Compètences</H3>
+                    <BoxSkills>
+                      <H3 fontSize="2rem">Compètences</H3>
 
-                  {categorys.map((category) => (
-                    <SubContainer key={`${category.name}_${category.id}`} category={category} setTechno={handleSet} />
-                  ))}
+                      {categorys && categorys.map((category) => (
+                        <SubContainer key={`${category.name}_${category.id}`} category={category} setTechno={handleSet} />
+                      ))}
 
-                  <P fontWeight="bold" margin="2rem 0 2rem .3rem" display="block"> Niveau des technologies acquises </P>
-                  <SkillsSlideContainer justifyContent="center">
+                      <P fontWeight="bold" margin="2rem 0 2rem .3rem" display="block"> Niveau des technologies acquises </P>
+                      <SkillsSlideContainer justifyContent="center">
 
-                    {Object.getOwnPropertyNames(skills).length === 0
-                      || skills[techno]
-                        .filter((skill) => filterSkillsPartnerActive(skill, partner.skills))
-                        .map((res) => (
-                          partner.skills.map((partnerSkill) => partnerSkill.id === res.id
-                            &&
-                            (
+                        {Object.getOwnPropertyNames(skills).length === 0
+                          || skills[techno]
+                            .filter((skill) => filterSkillsPartnerActive(skill, partner.skills))
+                            .map((res) => (
+                              partner.skills.map((partnerSkill) => partnerSkill.id === res.id
+                                && (
+                                  <HorizontalFlex marginTop="2rem" justifyContent="space-between" width="55%" minW="" maxW="" margin="2rem auto">
+                                    <HorizontalFlex width="100%" justifyContent="flex-start">
+                                      <Img height="2rem" width="2rem" margin="0 2rem 0 0" src={`./styles/img/${res.icon}.png`} alt="techno-Logo" />
+                                      <P fontWeight="bold" padding=".5rem 2rem 0rem 0">{res.name}</P>
+                                    </HorizontalFlex>
+                                    <RangeCursor key={`${keyGenerator(res.name)}_${res.id}`} level={partnerSkill.level} res={res} />
+                                  </HorizontalFlex>
+                                ))
+
+                            ))}
+                        {skillEdit
+                          && skills[techno]
+                            .filter((skill) => filterSkillsPartnerUnactive(skill, partner.skills))
+                            .map((res) => (
                               <HorizontalFlex marginTop="2rem" justifyContent="space-between" width="55%" minW="" maxW="" margin="2rem auto">
                                 <HorizontalFlex width="100%" justifyContent="flex-start">
                                   <Img height="2rem" width="2rem" margin="0 2rem 0 0" src={`./styles/img/${res.icon}.png`} alt="techno-Logo" />
                                   <P fontWeight="bold" padding=".5rem 2rem 0rem 0">{res.name}</P>
                                 </HorizontalFlex>
-                                <RangeCursor key={`${keyGenerator(res.name)}_${res.id}`} level={partnerSkill.level} res={res} />
+                                <RangeCursor key={`${keyGenerator(res.name)}_${res.id}`} res={res} level={0} />
                               </HorizontalFlex>
-                            ))
+                            ))}
+                      </SkillsSlideContainer>
 
-                        ))}
-                    {skillEdit
-                      && skills[techno]
-                        .filter((skill) => filterSkillsPartnerUnactive(skill, partner.skills))
-                        .map((res) => (
-                          <HorizontalFlex marginTop="2rem" justifyContent="space-between" width="55%" minW="" maxW="" margin="2rem auto">
-                            <HorizontalFlex width="100%" justifyContent="flex-start">
-                              <Img height="2rem" width="2rem" margin="0 2rem 0 0" src={`./styles/img/${res.icon}.png`} alt="techno-Logo" />
-                              <P fontWeight="bold" padding=".5rem 2rem 0rem 0">{res.name}</P>
-                            </HorizontalFlex>
-                            <RangeCursor key={`${keyGenerator(res.name)}_${res.id}`} res={res} level={0} />
-                          </HorizontalFlex>
-                        ))}
-                  </SkillsSlideContainer>
-
-                  {skillEdit
-                    ? <DarkButton onClick={switchEdit}>Terminer l'évaluation</DarkButton>
-                    : <DarkButton onClick={switchEdit}>Lancer une évaluation</DarkButton>}
-                </BoxSkills>
-              </Card>
-            </Container>
+                      {skillEdit
+                        ? <DarkButton onClick={switchEdit}>Terminer l'évaluation</DarkButton>
+                        : <DarkButton onClick={switchEdit}>Lancer une évaluation</DarkButton>}
+                    </BoxSkills>
+                  </Card>
+                </Container>
+              </>
+            )}
           </>
         )}
     </>
